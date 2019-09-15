@@ -13,11 +13,18 @@ if not config['web_domain']:
     quit()
 
 
+def get_full_cookies():
+    cookies = request.cookies
+    core_cookies = cfscrape.get_cookie_string(config['web_domain'])
+    core_cookie_dict = {x.split("=")[0]: x.split("=")[1] for x in core_cookies[0].split(";")}
+    return {**core_cookie_dict, **cookies}
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all_get(path):
     full_path = "{}/{}".format(config['web_domain'], path)
-    cookies = request.cookies
+    cookies = get_full_cookies()
     resp = scraper.get(full_path, cookies=cookies)
     return resp.content, resp.status_code
 
@@ -26,7 +33,7 @@ def catch_all_get(path):
 @app.route('/<path:path>', methods=['POST'])
 def catch_all(path):
     full_path = "{}/{}".format(config['web_domain'], path)
-    cookies = request.cookies
+    cookies = get_full_cookies()
     if request.json:
         data = request.values
         resp = scraper.post(full_path, json=data, cookies=cookies)
