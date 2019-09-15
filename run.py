@@ -17,7 +17,8 @@ if not config['web_domain']:
 @app.route('/<path:path>')
 def catch_all_get(path):
     full_path = "{}/{}".format(config['web_domain'], path)
-    resp = scraper.get(full_path)
+    cookies = request.cookies
+    resp = scraper.get(full_path, cookies=cookies)
     return resp.content, resp.status_code
 
 
@@ -25,12 +26,13 @@ def catch_all_get(path):
 @app.route('/<path:path>', methods=['POST'])
 def catch_all(path):
     full_path = "{}/{}".format(config['web_domain'], path)
+    cookies = request.cookies
     if request.json:
         data = request.values
-        resp = scraper.post(full_path, json=data)
+        resp = scraper.post(full_path, json=data, cookies=cookies)
         return resp.content, resp.status_code
     data = request.data
-    resp = scraper.post(full_path, data=data)
+    resp = scraper.post(full_path, data=data, cookies=cookies)
     return resp.content, resp.status_code
 
 
