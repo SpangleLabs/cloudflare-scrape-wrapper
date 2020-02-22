@@ -1,5 +1,5 @@
 # Cloudflare-scrape wrapper
 
-This is a simple little webserver to wrap around the [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape) python library.
+This is a simple little webserver to wrap around the [cfscrape](https://pypi.org/project/cfscrape/#description) python library.
 
-Simply set `web_domain` and `port` in `config.json` and then run run.py, and then you can point whatever other application at `http://localhost:{port}` for whichever port you chose.
+Simply set the environment variables `web_domain` and `port` and then run run.py, and then you can point whatever other application at `http://localhost:{port}` for whichever port you chose.
