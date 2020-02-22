@@ -1,7 +1,6 @@
 PROJECT = cloudflare_scrape_wrapper
 
 build:
-	pip install -r requirements.txt
 	docker build -t $(PROJECT) .
 
 run: build
