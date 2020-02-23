@@ -18,7 +18,7 @@ def get_full_cookies():
     core_cookies = cfscrape.get_cookie_string(web_domain)
     core_cookie_dict = {x.split("=")[0]: x.split("=")[1] for x in core_cookies[0].split(";")}
     full_cookies = dict()
-    for key, val in core_cookie_dict:
+    for key, val in core_cookie_dict.items():
         full_cookies[key] = val
     for key, val in cookies.items():
         full_cookies[key] = val
