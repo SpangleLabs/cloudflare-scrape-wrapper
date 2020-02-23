@@ -1,7 +1,7 @@
 import os
 
 import cfscrape
-from flask import Flask, request
+from flask import Flask, request, Response
 
 app = Flask(__name__)
 scraper = cfscrape.create_scraper()
@@ -26,7 +26,11 @@ def catch_all_get(path):
     full_path = "{}/{}".format(web_domain, path)
     cookies = get_full_cookies()
     resp = scraper.get(full_path, cookies=cookies)
-    return resp.content, resp.status_code
+    return Response(
+        resp.content,
+        status=resp.status_code,
+        mimetype=resp.headers["Content-Type"]
+    )
 
 
 @app.route('/', defaults={'path': ''}, methods=['POST'])
@@ -40,7 +44,11 @@ def catch_all(path):
         return resp.content, resp.status_code
     data = request.data
     resp = scraper.post(full_path, data=data, cookies=cookies)
-    return resp.content, resp.status_code
+    return Response(
+        resp.content,
+        status=resp.status_code,
+        mimetype=resp.headers["Content-Type"]
+    )
 
 
 if __name__ == '__main__':
