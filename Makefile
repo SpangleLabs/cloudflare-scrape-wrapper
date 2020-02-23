@@ -13,7 +13,7 @@ stop:
 	docker stop $(PROJECT)
 
 clean:
-	docker kill -s 9 $(DOCKER_TAG) || true
-	docker rm $(DOCKER_TAG) || true
-	docker rmi -f $(DOCKER_TAG) || true
+	docker kill -s 9 $(PROJECT) || true
+	docker rm $(PROJECT) || true
+	docker rmi -f $(PROJECT) || true
 	rm -rf venv
