@@ -17,7 +17,12 @@ def get_full_cookies():
     cookies = request.cookies
     core_cookies = cfscrape.get_cookie_string(web_domain)
     core_cookie_dict = {x.split("=")[0]: x.split("=")[1] for x in core_cookies[0].split(";")}
-    return {**core_cookie_dict, **cookies}
+    full_cookies = dict()
+    for key, val in core_cookie_dict:
+        full_cookies[key] = val
+    for key, val in cookies.items():
+        full_cookies[key] = val
+    return full_cookies
 
 
 @app.route('/', defaults={'path': ''})
