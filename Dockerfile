@@ -5,7 +5,7 @@ RUN mkdir /usr/cf_bypass
 WORKDIR /usr/cf_bypass
 
 COPY . /usr/cf_bypass
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt -U
 
 EXPOSE 4999/tcp
 
