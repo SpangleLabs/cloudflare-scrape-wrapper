@@ -43,12 +43,22 @@ def catch_all_get(path):
 def catch_all(path):
     full_path = "{}/{}".format(web_domain, path)
     cookies = get_full_cookies()
+    headers = {
+        "Content-Type": request.headers["Content-Type"],
+        "Origin": request.headers["Origin"],
+        "Referer": request.headers["Referer"],
+        "Accept": request.headers["Accept"],
+        "User-Agent": request.headers["User-Agent"]
+    }
     if request.json:
-        data = request.values
-        resp = scraper.post(full_path, json=data, cookies=cookies)
-        return resp.content, resp.status_code
-    data = request.data
-    resp = scraper.post(full_path, data=data, cookies=cookies)
+        data = request.json
+        resp = scraper.post(full_path, json=data, headers=headers, cookies=cookies)
+    else:
+        if request.form:
+            data = "&".join(f"{x}={y}" for x, y in request.form.to_dict().items())
+        else:
+            data = request.data
+        resp = scraper.post(full_path, data=data, headers=headers, cookies=cookies)
     return Response(
         resp.content,
         status=resp.status_code,
