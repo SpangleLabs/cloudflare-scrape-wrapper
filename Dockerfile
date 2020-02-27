@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.5-nodejs12-alpine
+FROM nikolaik/python-nodejs:python3.7-nodejs12-alpine
 MAINTAINER Joshua Coales <joshua@coales.co.uk>
 
 RUN mkdir /usr/cf_bypass
