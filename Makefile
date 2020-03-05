@@ -6,10 +6,10 @@ build:
 	docker build -t $(PROJECT) .
 
 run: build
-	docker run -e web_domain="$(WEB_DOMAIN)" -p 4999:4999 $(PROJECT)
+	docker run -e web_domain="$(WEB_DOMAIN)" -p 4999:80 $(PROJECT)
 
 start:
-	docker run -e web_domain="$(WEB_DOMAIN)" -p 4999:4999 -d $(PROJECT)
+	docker run -e web_domain="$(WEB_DOMAIN)" -p 4999:80 -d $(PROJECT)
 
 stop:
 	docker stop $(PROJECT)

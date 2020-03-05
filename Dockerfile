@@ -5,7 +5,7 @@ MAINTAINER Joshua Coales <joshua@coales.co.uk>
 COPY . /app
 RUN pip install -r requirements.txt -U
 
-EXPOSE 4999/tcp
+EXPOSE 80
 
 ENV MODULE_NAME "run"
 ENV VARIABLE_NAME "app"
