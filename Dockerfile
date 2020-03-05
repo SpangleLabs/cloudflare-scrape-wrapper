@@ -1,12 +1,14 @@
 FROM nikolaik/python-nodejs:python3.7-nodejs12-alpine
+FROM tiangolo/meinheld-gunicorn-flask:python3.7-alpine3.8
 MAINTAINER Joshua Coales <joshua@coales.co.uk>
 
-RUN mkdir /usr/cf_bypass
-WORKDIR /usr/cf_bypass
+RUN mkdir /app
+WORKDIR /app
 
-COPY . /usr/cf_bypass
+COPY . /app
 RUN pip install -r requirements.txt -U
 
 EXPOSE 4999/tcp
 
-CMD python ./run.py
+ENV MODULE_NAME "run"
+ENV VARIABLE_NAME "app"
