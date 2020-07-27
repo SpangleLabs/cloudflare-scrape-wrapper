@@ -1,21 +1,40 @@
 import os
 
 import cfscrape
+import cloudscraper
 from flask import Flask, request, Response
-
-app = Flask(__name__)
-scraper = cfscrape.create_scraper()
 
 if not os.getenv('web_domain'):
     print("Please set a web_domain environment variable")
-    quit()
+    quit(1)
 
 web_domain = os.getenv("web_domain")
 
 
+def select_lib():
+    scrape_libs = [cfscrape, cloudscraper]
+    for lib in scrape_libs:
+        try:
+            print("")
+            lib.get_cookie_string(web_domain)
+            return lib
+        except:
+            continue
+    return None
+
+
+SCRAPE_LIB = select_lib()
+if SCRAPE_LIB is None:
+    print("No libraries seem able to bypass cloudflare for that site.")
+    quit(1)
+
+app = Flask(__name__)
+scraper = SCRAPE_LIB.create_scraper()
+
+
 def get_full_cookies():
     cookies = request.cookies
-    core_cookies = cfscrape.get_cookie_string(web_domain)
+    core_cookies = SCRAPE_LIB.get_cookie_string(web_domain)
     core_cookie_dict = {x.split("=")[0]: x.split("=")[1] for x in core_cookies[0].split(";")}
     full_cookies = dict()
     for key, val in core_cookie_dict.items():
