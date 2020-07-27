@@ -1,6 +1,6 @@
 PROJECT = cloudflare_scrape_wrapper
 DOCKERHUB_TAG = "joshcoales/cloudflare_bypass"
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 
 
 WEB_DOMAIN:
