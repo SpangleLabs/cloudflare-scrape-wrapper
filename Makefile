@@ -2,13 +2,20 @@ PROJECT = cloudflare_scrape_wrapper
 DOCKERHUB_TAG = "joshcoales/cloudflare_bypass"
 VERSION = "0.1.0"
 
+
+WEB_DOMAIN:
+ifndef WEB_DOMAIN
+	@echo Warning: WEB_DOMAIN isn\'t defined\; continue? [Y/n]
+	@read line; if [ $$line = "n" ]; then echo aborting; exit 1 ; fi
+endif
+
 build:
 	docker build -t $(PROJECT) .
 
-run: build
+run: build WEB_DOMAIN
 	docker run -e web_domain="$(WEB_DOMAIN)" -p 4999:80 $(PROJECT)
 
-start:
+start: WEB_DOMAIN
 	docker run -e web_domain="$(WEB_DOMAIN)" -p 4999:80 -d $(PROJECT)
 
 stop:
